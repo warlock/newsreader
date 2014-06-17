@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,14 +29,16 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
         productListView = (ListView) findViewById(R.id.listView);
         dbHandler = new DatabaseHandler(getApplicationContext());
+        try {
+            dbHandler.loadDataBase();
+            dbHandler.openDataBase();
+            //dbHandler.getProduct(1);
+            Products = dbHandler.getAllProducts();
+        } catch (IOException e) {
+            throw new Error("Error en carregar la db");
+        }
+        dbHandler.getAllProducts();
         populateList();
-
-        /*ListView listView = (ListView) findViewById(R.id.listView);
-        String[] items = {"Pais1","Pais2","Pais3"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,items);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
-        */
     }
 
     private void populateList() {
