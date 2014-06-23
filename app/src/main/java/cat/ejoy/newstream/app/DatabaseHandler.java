@@ -188,7 +188,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             }
             while (cursor.moveToNext());
         }
-        //System.out.println("pilla tots els productes");
+        cursor.close();
         return products;
     }
 }

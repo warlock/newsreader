@@ -10,13 +10,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener{
+public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     List<Product> Products = new ArrayList<Product>();
     ListView productListView;
@@ -32,18 +33,19 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         try {
             dbHandler.loadDataBase();
             dbHandler.openDataBase();
-            //dbHandler.getProduct(1);
             Products = dbHandler.getAllProducts();
         } catch (IOException e) {
             throw new Error("Error en carregar la db");
         }
-        dbHandler.getAllProducts();
-        populateList();
-    }
-
-    private void populateList() {
         ArrayAdapter<Product> adapter = new ProductListAdapter();
         productListView.setAdapter(adapter);
+        productListView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Product currentProduct = Products.get(position);
+        Toast.makeText(this, currentProduct.getName(), Toast.LENGTH_SHORT).show();
     }
 
     private class ProductListAdapter extends ArrayAdapter<Product> {
@@ -61,22 +63,12 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             TextView name = (TextView) view.findViewById(R.id.textViewName);
             name.setText(currentProduct.getName());
             TextView country = (TextView) view.findViewById(R.id.textViewCountry);
-            country.setText(currentProduct.getName());
+            country.setText(currentProduct.getCountry());
             TextView url = (TextView) view.findViewById(R.id.textViewUrl);
             url.setText(currentProduct.getUrl());
-
             return view;
         }
     }
-
-    @Override
-    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-        //Log.i("HelloListView","You clicked" + id + " at position: " + position);
-        //Toast.makeText(this, "You clicked" + id + " at position: " + position, Toast.LENGTH_SHORT).show();
-        //News hola = new News("Nom","Pais","url");
-        //Toast.makeText(this, hola.getName(), Toast.LENGTH_SHORT).show();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
