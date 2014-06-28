@@ -16,25 +16,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by josep on 05/06/14.
+ * dbHandler by josep on 05/06/14.
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "news",
-            DB_PATH = "/data/data/cat.ejoy.newstream.app/databases/",
             TABLE_PRODUCTS = "news",
             KEY_ID = "id",
             KEY_NAME="name",
             KEY_COUNTRY="country",
             KEY_URL="url";
+
+    private String DB_PATH;
+
     private SQLiteDatabase myDataBase;
     private final Context myContext;
 
     public DatabaseHandler(Context context) {
         super(context,DATABASE_NAME, null, DATABASE_VERSION);
         this.myContext = context;
+        DB_PATH = myContext.getFilesDir().getAbsolutePath().replace("files", "databases")+ File.separator + DATABASE_NAME;
     }
 
     @Override
@@ -49,7 +52,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void loadDataBase() throws IOException {
         boolean dbExist = checkDataBase();
         if (dbExist) {
-            // Si existeix no fem res
         } else {
             this.getReadableDatabase();
             try {
@@ -63,10 +65,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private boolean checkDataBase() {
         SQLiteDatabase checkDB = null;
         try {
-            String myPath = DB_PATH + DATABASE_NAME;
-            myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+            myDataBase = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
-            //DB No creada encara
         }
 
         if (checkDB != null) {
@@ -76,9 +76,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void openDataBase() throws SQLiteException {
-        //Aixo...
-        String myPath = myContext.getFilesDir().getAbsolutePath().replace("files", "databases")+ File.separator + DATABASE_NAME;
-        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+        myDataBase = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
     }
 
     @Override
@@ -97,7 +95,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             myoutput.write(buffer,0,length);
         }
         System.out.println("DB CARREGADA");
-        //Close the streams
         myoutput.flush();
         myoutput.close();
         myinput.close();
@@ -180,6 +177,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         List<Product> products = new ArrayList<Product>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PRODUCTS, null);
+        if (cursor.moveToFirst())
+        {
+            do {
+                Product product = new Product(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3) );
+                products.add(product);
+            }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+        return products;
+    }
+
+        public List<Product> getAllCountry() {
+        List<Product> products = new ArrayList<Product>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT country FROM " + TABLE_PRODUCTS, null);
         if (cursor.moveToFirst())
         {
             do {

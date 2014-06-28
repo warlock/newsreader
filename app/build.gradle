@@ -1,15 +1,15 @@
 apply plugin: 'android'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '19.1.0'
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
+
     defaultConfig {
-        packageName "cat.ejoy.newstream.app"
+        applicationId "cat.ejoy.newstream"
         minSdkVersion 8
-        targetSdkVersion 19
+        targetSdkVersion 20
         versionCode 1
-        versionName '1.0'
-        applicationId 'cat.ejoy.newstream.app'
+        versionName "1.0"
     }
     buildTypes {
         release {
@@ -17,13 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors {
-    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:19.+'
-    compile 'com.android.support:appcompat-v7:19.+'
     compile 'com.android.support:appcompat-v7:19.+'
 }
