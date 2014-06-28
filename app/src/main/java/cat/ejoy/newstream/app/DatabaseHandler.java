@@ -189,14 +189,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return products;
     }
 
-        public List<Product> getAllCountry() {
-        List<Product> products = new ArrayList<Product>();
+        public List<String> getAllCountry() {
+        List<String> products = new ArrayList<String>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT DISTINCT country FROM " + TABLE_PRODUCTS, null);
         if (cursor.moveToFirst())
         {
             do {
-                Product product = new Product(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3) );
+                String product = cursor.getString(0);
                 products.add(product);
             }
             while (cursor.moveToNext());
