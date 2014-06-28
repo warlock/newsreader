@@ -34,7 +34,9 @@ public class Publications extends ActionBarActivity implements AdapterView.OnIte
         try {
             dbHandler.loadDataBase();
             dbHandler.openDataBase();
-            Products = dbHandler.getAllProducts();
+            Bundle bundle = getIntent().getExtras();
+            String country = bundle.getString("COUNTRY");
+            Products = dbHandler.getProductsCountry(country);
         } catch (IOException e) {
             throw new Error("Error en carregar la db");
         }

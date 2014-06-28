@@ -100,20 +100,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         myinput.close();
     }
 
-/*
-    public Product getProduct(int id) {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query(DATABASE_NAME, new String[]{"id", "name", "country", "url"}, "id" + "=?", new String[]{String.valueOf(id)}, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        Product product = new Product(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3) );
-        db.close();
-        cursor.close();
-        return product;
-    }
-    */
-
     public void createDataBase(SQLiteDatabase db) {
         //Pot ser el onCreate
         db.execSQL("CREATE TABLE " + TABLE_PRODUCTS + " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_NAME + " TEXT, " + KEY_COUNTRY + " TEXT, " + KEY_URL + " TEXT)");
@@ -189,7 +175,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return products;
     }
 
-        public List<String> getAllCountry() {
+    public List<Product> getProductsCountry(String country) {
+        List<Product> products = new ArrayList<Product>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PRODUCTS + " WHERE country = \"" + country + "\"", null);
+        if (cursor.moveToFirst())
+        {
+            do {
+                Product product = new Product(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3) );
+                products.add(product);
+            }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+        return products;
+    }
+
+    public List<String> getAllCountry() {
         List<String> products = new ArrayList<String>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT DISTINCT country FROM " + TABLE_PRODUCTS, null);
