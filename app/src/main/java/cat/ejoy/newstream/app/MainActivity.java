@@ -48,7 +48,6 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String currentProduct = Products.get(position);
-        //Toast.makeText(this, currentProduct, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MainActivity.this,Publications.class);
         Bundle b = new Bundle();
         b.putString("COUNTRY",currentProduct);

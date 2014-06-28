@@ -1,5 +1,6 @@
 package cat.ejoy.newstream.app;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -48,7 +49,12 @@ public class Publications extends ActionBarActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Product currentProduct = Products.get(position);
-        Toast.makeText(this, currentProduct.getName(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, currentProduct.getUrl(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(Publications.this,WebActivity.class);
+        Bundle b = new Bundle();
+        b.putString("URL",currentProduct.getUrl());
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     private class ProductListAdapter extends ArrayAdapter<Product> {
@@ -65,10 +71,10 @@ public class Publications extends ActionBarActivity implements AdapterView.OnIte
 
             TextView name = (TextView) view.findViewById(R.id.textViewName);
             name.setText(currentProduct.getName());
-            TextView country = (TextView) view.findViewById(R.id.textViewCountry);
-            country.setText(currentProduct.getCountry());
-            TextView url = (TextView) view.findViewById(R.id.textViewUrl);
-            url.setText(currentProduct.getUrl());
+            //TextView country = (TextView) view.findViewById(R.id.textViewCountry);
+            //country.setText(currentProduct.getCountry());
+            //TextView url = (TextView) view.findViewById(R.id.textViewUrl);
+            //url.setText(currentProduct.getUrl());
             return view;
         }
     }

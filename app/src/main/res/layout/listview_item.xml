@@ -10,16 +10,4 @@
         android:text="NAME"
         android:id="@+id/textViewName"
         android:layout_gravity="center_horizontal" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="COUNTRY"
-        android:id="@+id/textViewCountry"
-        android:layout_gravity="center_horizontal" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="URL"
-        android:id="@+id/textViewUrl"
-        android:layout_gravity="center_horizontal" />
 </LinearLayout>
