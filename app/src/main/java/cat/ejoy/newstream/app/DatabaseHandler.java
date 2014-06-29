@@ -61,12 +61,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             }
         }
     }
-
+/*
     private boolean checkDataBase() {
         SQLiteDatabase checkDB = null;
         try {
             myDataBase = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
+            System.out.println("La db no existe");
         }
 
         if (checkDB != null) {
@@ -74,9 +75,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return checkDB != null ? true : false;
     }
+    */
+
+    public boolean checkDataBase()
+    {
+        File dbFile = new File(DB_PATH);
+        return dbFile.exists();
+    }
 
     public void openDataBase() throws SQLiteException {
-        myDataBase = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
+        myDataBase = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY + SQLiteDatabase.NO_LOCALIZED_COLLATORS);
     }
 
     @Override
