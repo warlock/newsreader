@@ -20,6 +20,7 @@ public class WebActivity extends ActionBarActivity {
         WebView myWebView = (WebView) findViewById(R.id.webview);
         myWebView.setWebViewClient(new WebViewClient());
         myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.getSettings().setBuiltInZoomControls(true);
         myWebView.loadUrl(url);
     }
 

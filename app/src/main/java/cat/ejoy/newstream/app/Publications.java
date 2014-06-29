@@ -44,6 +44,7 @@ public class Publications extends ActionBarActivity implements AdapterView.OnIte
         ArrayAdapter<Product> adapter = new ProductListAdapter();
         productListView.setAdapter(adapter);
         productListView.setOnItemClickListener(this);
+        dbHandler.close();
     }
 
     @Override
